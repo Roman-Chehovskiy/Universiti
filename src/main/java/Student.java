@@ -3,7 +3,7 @@ public class Student {
     private String fullName;
     private String universityId;
     private int currentCourseNumber;
-    private float avgExamScore;
+    private double avgExamScore;
 
     public Student(String fullName, String universityId) {
         this.fullName = fullName;
@@ -16,13 +16,13 @@ public class Student {
         this.currentCourseNumber = currentCourseNumber;
     }
 
-    public Student(String fullName, String universityId, float avgExamScore) {
+    public Student(String fullName, String universityId, double avgExamScore) {
         this.fullName = fullName;
         this.universityId = universityId;
         this.avgExamScore = avgExamScore;
     }
 
-    public Student(String fullName, String universityId, int currentCourseNumber, float avgExamScore) {
+    public Student(String fullName, String universityId, int currentCourseNumber, double avgExamScore) {
         this.fullName = fullName;
         this.universityId = universityId;
         this.currentCourseNumber = currentCourseNumber;
@@ -56,7 +56,7 @@ public class Student {
         return this;
     }
 
-    public float getAvgExamScore() {
+    public double getAvgExamScore() {
         return avgExamScore;
     }
 
@@ -67,6 +67,6 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Имя студента: " + fullName + ", Курс: " + currentCourseNumber + ", Средний бал: " + avgExamScore;
+        return "Id университета " + universityId + " Имя студента: " + fullName + ", Курс: " + currentCourseNumber + ", Средний бал: " + avgExamScore;
     }
 }

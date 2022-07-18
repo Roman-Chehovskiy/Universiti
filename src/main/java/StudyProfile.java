@@ -1,9 +1,10 @@
 public enum StudyProfile {
-    MEDICINE("Медицина"),
-    ECONOMY("Экономика"),
+    PHYSICS("Физика"),
+    COMPUTER_SCIENCE("Информатика"),
+    MATHEMATICS("Математика"),
     JURISPRUDENCE("Юриспруденция"),
-    BOTANY ("Ботаника"),
-    AGRARIAN ("Сельское хозйство");
+    MEDICINE("Медицина"),
+    LINGUISTICS("Лингвистика");
 
     private String profileName;
 
@@ -14,6 +15,6 @@ public enum StudyProfile {
 
     @Override
     public String toString() {
-        return " Специализация: " + profileName;
+        return  profileName;
     }
 }

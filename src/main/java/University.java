@@ -6,6 +6,9 @@ public class University {
     private int yearOfFoundation;
     private StudyProfile mainProfile;
 
+    public University() {
+    }
+
     public University(String id, String fullName, StudyProfile mainProfile) {
         this.id = id;
         this.fullName = fullName;
@@ -81,9 +84,10 @@ public class University {
         return this;
     }
 
+
     @Override
     public String toString() {
-        return "Название университета: " + fullName + ", Сокращенное название: " + shortName + ", Год основания: " + yearOfFoundation + mainProfile;
+        return "Id университета " + id + " Название университета: " + fullName + ", Сокращенное название: " + shortName + ", Год основания: " + yearOfFoundation + " Специализация " + mainProfile;
     }
 }
 
