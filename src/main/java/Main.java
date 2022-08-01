@@ -1,5 +1,12 @@
+import Comparator.*;
+import Util.CreateStatistics;
+import Util.JsonUtil;
+import Model.Student;
+import Model.University;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Main {
 
@@ -21,12 +28,35 @@ public class Main {
         compareUniversityList.add(DefineComparator.GetComparator(UniversityEnumComparator.STUDY_PROFILE_COMPARATOR));
 
         for (int i = 0; i < compareStudentList.size(); i++) {
-            studentList.stream().sorted(compareStudentList.get(0)).forEach(System.out::println);
+            studentList.stream().sorted(compareStudentList.get(i)).forEach(System.out::println);
             System.out.println();
         }
-       for (int i = 0; i < compareUniversityList.size(); i++) {
-           universityList.stream().sorted(compareUniversityList.get(i)).forEach(System.out::println);
-           System.out.println();
-       }
+        for (int i = 0; i < compareUniversityList.size(); i++) {
+            universityList.stream().sorted(compareUniversityList.get(i)).forEach(System.out::println);
+            System.out.println();
+        }
+
+        universityList.stream().limit(3).map(e -> JsonUtil.gsonUniversity(e)).peek(e -> System.out.println(e)).map(e -> JsonUtil.gsonToUniversity(e)).forEach(System.out::println);
+        System.out.println();
+        studentList.stream().limit(2).map(e -> JsonUtil.gsonStudent(e)).peek(e -> System.out.println(e)).map(e -> JsonUtil.gsonToStudent(e)).forEach(System.out::println);
+        System.out.println();
+
+        List<String> studentString = JsonUtil.gsonListStudent(studentList);
+        System.out.println(studentString);
+        System.out.println();
+        List<String> universityString = JsonUtil.gsonListUniversity(universityList);
+        System.out.println(universityString);
+        System.out.println();
+
+        List<Student> studentListDeserial = JsonUtil.gsonToStudentList(studentString);
+        studentListDeserial.stream().forEach(System.out::println);
+        System.out.println();
+        List<University> universityListDeserial = JsonUtil.gsonToUniversityList(universityString);
+        universityListDeserial.stream().forEach(System.out::println);
+        System.out.println();
+
+        CreateStatistics.createStatisticsList(studentList, universityList).stream().forEach(System.out :: println);
+
+        XlsWriter.writeTable(CreateStatistics.createStatisticsList(studentList, universityList), "C:\\Users\\Роман\\Desktop\\учеба\\university\\src\\main\\resources\\statistics.xlsx");
     }
 }
