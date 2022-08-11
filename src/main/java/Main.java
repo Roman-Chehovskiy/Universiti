@@ -1,18 +1,38 @@
 import Comparator.*;
-import Util.CreateStatistics;
-import Util.JsonUtil;
+import Model.Info;
+import Model.Statistics;
+import Util.*;
 import Model.Student;
 import Model.University;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public class Main {
 
+    static {
+        try {
+            LogManager.getLogManager().readConfiguration(Main.class.getResourceAsStream("logging.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static final Logger logger = Logger.getLogger(Main.class.getName());
+
+
     public static void main(String[] args) {
+
+        logger.log(Level.INFO, "Старт программы");
+
         List<Student> studentList = LoadStudentAndUniversiti.LoadStudent();
         List<University> universityList = LoadStudentAndUniversiti.LoadUnuversity();
+        List<Statistics> statisticsList = CreateStatistics.createStatisticsList(studentList, universityList);
         List<CompareStudent> compareStudentList = new ArrayList<>();
         List<CompareUniversity> compareUniversityList = new ArrayList<>();
 
@@ -36,27 +56,16 @@ public class Main {
             System.out.println();
         }
 
-        universityList.stream().limit(3).map(e -> JsonUtil.gsonUniversity(e)).peek(e -> System.out.println(e)).map(e -> JsonUtil.gsonToUniversity(e)).forEach(System.out::println);
-        System.out.println();
-        studentList.stream().limit(2).map(e -> JsonUtil.gsonStudent(e)).peek(e -> System.out.println(e)).map(e -> JsonUtil.gsonToStudent(e)).forEach(System.out::println);
-        System.out.println();
+        Info info = new Info();
+        info.setStudentList(studentList);
+        info.setUniversityList(universityList);
+        info.setStatisticsList(statisticsList);
+        info.setDateCreate(Calendar.getInstance());
 
-        List<String> studentString = JsonUtil.gsonListStudent(studentList);
-        System.out.println(studentString);
-        System.out.println();
-        List<String> universityString = JsonUtil.gsonListUniversity(universityList);
-        System.out.println(universityString);
-        System.out.println();
+        XmlWrite.XmlWriter(info);
+        JsonWrite.writeJson(info);
+        XlsWriter.write(statisticsList, "C:\\Users\\Роман\\Desktop\\учеба\\university\\src\\main\\resources\\statistics.xlsx");
 
-        List<Student> studentListDeserial = JsonUtil.gsonToStudentList(studentString);
-        studentListDeserial.stream().forEach(System.out::println);
-        System.out.println();
-        List<University> universityListDeserial = JsonUtil.gsonToUniversityList(universityString);
-        universityListDeserial.stream().forEach(System.out::println);
-        System.out.println();
-
-        CreateStatistics.createStatisticsList(studentList, universityList).stream().forEach(System.out :: println);
-
-        XlsWriter.writeTable(CreateStatistics.createStatisticsList(studentList, universityList), "C:\\Users\\Роман\\Desktop\\учеба\\university\\src\\main\\resources\\statistics.xlsx");
+        logger.log(Level.INFO, "Завершение работы программы");
     }
 }

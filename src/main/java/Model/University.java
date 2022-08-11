@@ -3,18 +3,24 @@ package Model;
 import com.google.gson.annotations.SerializedName;
 import Enum.StudyProfile;
 
-import java.util.Objects;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 public class University {
 
+    @XmlElement(name = "universityId")
     private String id;
     @SerializedName("Name University")
+    @XmlElement(name = "universityName")
     private String fullName;
     @SerializedName("Short Name")
+    @XmlTransient
     private String shortName;
     @SerializedName("Year Of Foundation")
+    @XmlTransient
     private int yearOfFoundation;
-    @SerializedName("Specialization")
+    @SerializedName("universityProfile")
+    @XmlElement(name = "universityProfile")
     private StudyProfile mainProfile;
 
     public University() {
@@ -50,6 +56,7 @@ public class University {
         this.mainProfile = mainProfile;
     }
 
+    @XmlTransient
     public String getId() {
         return id;
     }
@@ -59,6 +66,7 @@ public class University {
         return this;
     }
 
+    @XmlTransient
     public String getFullName() {
         return fullName;
     }
@@ -68,6 +76,7 @@ public class University {
         return this;
     }
 
+    @XmlTransient
     public String getShortName() {
         return shortName;
     }
@@ -77,6 +86,7 @@ public class University {
         return this;
     }
 
+    @XmlTransient
     public int getYearOfFoundation() {
         return yearOfFoundation;
     }
@@ -86,6 +96,7 @@ public class University {
         return this;
     }
 
+    @XmlTransient
     public StudyProfile getMainProfile() {
         return mainProfile;
     }

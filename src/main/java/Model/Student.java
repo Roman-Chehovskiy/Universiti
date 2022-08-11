@@ -2,16 +2,27 @@ package Model;
 
 import com.google.gson.annotations.SerializedName;
 
+import javax.xml.bind.annotation.*;
+
+
+
 public class Student {
 
     @SerializedName("Name")
+    @XmlElement(name = "studentName")
     private String fullName;
     @SerializedName("Id")
+    @XmlElement(name = "universityId")
     private String universityId;
-    @SerializedName("Cours Mumber")
+    @SerializedName("Cours Number")
+    @XmlTransient
     private int currentCourseNumber;
     @SerializedName("average score")
+    @XmlElement(name = "avgScore")
     private double avgExamScore;
+
+    public Student() {
+    }
 
     public Student(String fullName, String universityId) {
         this.fullName = fullName;
@@ -36,7 +47,7 @@ public class Student {
         this.currentCourseNumber = currentCourseNumber;
         this.avgExamScore = avgExamScore;
     }
-
+    @XmlTransient
     public String getFullName() {
         return fullName;
     }
@@ -46,6 +57,7 @@ public class Student {
         return this;
     }
 
+    @XmlTransient
     public String getUniversityId() {
         return universityId;
     }
@@ -54,7 +66,7 @@ public class Student {
         this.universityId = universityId;
         return this;
     }
-
+    @XmlTransient
     public int getCurrentCourseNumber() {
         return currentCourseNumber;
     }
@@ -63,7 +75,7 @@ public class Student {
         this.currentCourseNumber = currentCourseNumber;
         return this;
     }
-
+    @XmlTransient
     public double getAvgExamScore() {
         return avgExamScore;
     }

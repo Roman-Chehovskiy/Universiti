@@ -1,5 +1,6 @@
 package Util;
 
+import Model.Statistics;
 import Model.Student;
 import Model.University;
 import com.google.gson.*;
@@ -7,35 +8,42 @@ import com.google.gson.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonUtil {
+public class JsonConvert {
 
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    private JsonUtil() {
+    private JsonConvert() {
     }
 
     public static String gsonStudent(Student student) {
         return gson.toJson(student);
     }
 
+    public static String jsonToStringStatistics(Statistics statistics) { return gson.toJson(statistics);}
+
     public static String gsonUniversity(University university) {
        return gson.toJson(university);
     }
 
-    public static List<String> gsonListStudent(List<Student> listStudent) {
-        List<String> studentString = new ArrayList<>();
-        for (Student student : listStudent) {
-            studentString.add(gsonStudent(student));
-        }
-        return studentString;
-    }
+    public static List<String> javaToJson(List list) throws Exception {
+        List<String> stringList = new ArrayList<>();
+       if (list.get(0) instanceof Student) {
+           for (Object student : list) {
+               stringList.add(gsonStudent((Student) student));
+           }
+       } else if (list.get(0) instanceof University) {
+           for (Object university : list) {
+               stringList.add(gsonUniversity((University) university));
+           }
+       } else if (list.get(0) instanceof Statistics) {
+           for (Object statistics : list) {
+               stringList.add(jsonToStringStatistics((Statistics)statistics));
+           }
+       } else {
+           throw new Exception();
 
-    public static List<String> gsonListUniversity(List<University> listUniversity) {
-        List<String> universityString = new ArrayList<>();
-        for (University university : listUniversity) {
-            universityString.add(gsonUniversity(university));
-        }
-        return universityString;
+           }
+        return stringList;
     }
 
     public static Student gsonToStudent(String studentString) {

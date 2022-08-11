@@ -1,3 +1,5 @@
+package Util;
+
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
@@ -12,8 +14,11 @@ import java.io.IOException;
 import Model.Statistics;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class XlsWriter {
+    private static final Logger logger = Logger.getLogger(XlsWriter.class.getName());
 
     private XlsWriter() {
     }
@@ -57,14 +62,18 @@ public class XlsWriter {
         row.createCell(4).setCellValue(statistics.getCountUniversity());
     }
 
-    public static void writeTable(List<Statistics> statisticsList, String addres) {
+    public static void write(List<Statistics> statisticsList, String addres) {
         XSSFWorkbook workbook = createTable(statisticsList);
         try {
             workbook.write(new FileOutputStream(new File(addres)));
+            logger.setLevel(Level.FINE);
+            logger.log(Level.FINE, "Статистика записана");
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "Оштбка длступа к базе", e);
         } catch (IOException e) {
+            logger.log(Level.WARNING, "Ошибка записи", e);
             e.printStackTrace();
         }
     }
 }
+
